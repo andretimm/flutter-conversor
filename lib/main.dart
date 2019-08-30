@@ -93,38 +93,12 @@ class _HomeState extends State<Home> {
                         size: 150.0,
                         color: Colors.amber,
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Reais",
-                          labelStyle: TextStyle(color: Colors.amber),
-                          border: OutlineInputBorder(),
-                          prefixText: "R\$",
-                          prefixStyle: TextStyle(color: Colors.amber),
-                        ),
-                        style: TextStyle(color: Colors.amber, fontSize: 25.0),
-                      ),
                       Divider(),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Dolares",
-                          labelStyle: TextStyle(color: Colors.amber),
-                          border: OutlineInputBorder(),
-                          prefixText: "US\$",
-                          prefixStyle: TextStyle(color: Colors.amber),
-                        ),
-                        style: TextStyle(color: Colors.amber, fontSize: 25.0),
-                      ),
+                      buildTextField("Reais","R\$"),
                       Divider(),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Euros",
-                          labelStyle: TextStyle(color: Colors.amber),
-                          border: OutlineInputBorder(),
-                          prefixText: "€",
-                          prefixStyle: TextStyle(color: Colors.amber),
-                        ),
-                        style: TextStyle(color: Colors.amber, fontSize: 25.0),
-                      ),
+                      buildTextField("Dolares","US\$"),
+                      Divider(),
+                      buildTextField("Euros","€"),
                     ],
                   ),
                 );
@@ -134,4 +108,17 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+Widget buildTextField(String label, String prefix) {
+  return TextField(
+    decoration: InputDecoration(
+      labelText: label,
+      labelStyle: TextStyle(color: Colors.amber),
+      border: OutlineInputBorder(),
+      prefixText: prefix,
+      prefixStyle: TextStyle(color: Colors.amber),
+    ),
+    style: TextStyle(color: Colors.amber, fontSize: 25.0),
+  );
 }
