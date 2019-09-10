@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-const request = "https://api.hgbrasil.com/finance?format=json&key=5f343fdc";
+const request = "https://api.hgbrasil.com/finance?format=json";
 
 void main() async {
   runApp(
@@ -47,15 +47,39 @@ class _HomeState extends State<Home> {
   double euro;
 
   void _realChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double real = double.parse(text);
+    dolarController.text = (real / dolar).toStringAsFixed(2);
+    euroController.text = (real / euro).toStringAsFixed(2);
   }
 
   void _dolarChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double dolar = double.parse(text);
+    realController.text = (dolar * this.dolar).toStringAsFixed(2);
+    euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
   }
 
   void _euroChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double euro = double.parse(text);
+    realController.text = (euro * this.euro).toStringAsFixed(2);
+    dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
+  }
+
+  void _clearAll() {
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
   }
 
   @override
@@ -110,11 +134,26 @@ class _HomeState extends State<Home> {
                         color: Colors.amber,
                       ),
                       Divider(),
-                      buildTextField("Reais", "R\$", realController),
+                      buildTextField(
+                        "Reais",
+                        "R\$",
+                        realController,
+                        _realChanged,
+                      ),
                       Divider(),
-                      buildTextField("Dolares", "US\$", dolarController),
+                      buildTextField(
+                        "Dolares",
+                        "US\$",
+                        dolarController,
+                        _dolarChanged,
+                      ),
                       Divider(),
-                      buildTextField("Euros", "€", euroController),
+                      buildTextField(
+                        "Euros",
+                        "€",
+                        euroController,
+                        _euroChanged,
+                      ),
                     ],
                   ),
                 );
@@ -127,7 +166,7 @@ class _HomeState extends State<Home> {
 }
 
 Widget buildTextField(
-    String label, String prefix, TextEditingController controller) {
+    String label, String prefix, TextEditingController controller, Function f) {
   return TextField(
     controller: controller,
     decoration: InputDecoration(
@@ -138,5 +177,7 @@ Widget buildTextField(
       prefixStyle: TextStyle(color: Colors.amber),
     ),
     style: TextStyle(color: Colors.amber, fontSize: 25.0),
+    onChanged: f,
+    keyboardType: TextInputType.numberWithOptions(decimal: true),
   );
 }
