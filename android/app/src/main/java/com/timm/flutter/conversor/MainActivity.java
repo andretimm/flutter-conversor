@@ -1,4 +1,4 @@
-package com.example.conversor;
+package com.timm.flutter.conversor;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
